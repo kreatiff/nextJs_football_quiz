@@ -11,8 +11,10 @@ import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import OpenAI from "openai";
 //test
+const fetchedApiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: fetchedApiKey,
 });
 
 const generateRandomId = () => {
