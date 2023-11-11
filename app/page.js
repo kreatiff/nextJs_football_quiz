@@ -3,7 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { Image } from "primereact/image";
 import { Dropdown } from "primereact/dropdown";
-import { categoryOptions, difficultyOptions } from "@/constant";
+import { categoryOptions, difficultyOptions, modeOptions } from "@/constant";
 import { Button } from "primereact/button";
 import { Slider } from "primereact/slider";
 import AppContext from "@/context/AppContext";
@@ -13,6 +13,8 @@ export default function Home() {
     setShowQuestionScreen,
     difficulty,
     setdifficulty,
+    mode,
+    setmode,
     category,
     setCategory,
     limit,
@@ -33,8 +35,8 @@ export default function Home() {
   return (
     <main className="wrapper">
       <div className="bg-white px-4 shadow-md w-full md:w-[80%] lg:w-[70%] max-w-5xl rounded-md">
-        <h1 className="heading">Welcome to Quizy</h1>
-        <div class="divider" />
+        <h1 className="heading">Welcome to Football Quiz</h1>
+        <div className="divider" />
         <div className="grid grid-cols-1 md:grid-cols-2 p-10 gap-4">
           <Image
             src={"/logo.png"}
@@ -46,14 +48,6 @@ export default function Home() {
               Quiz Settings
             </h2>
             <Dropdown
-              value={category}
-              onChange={(e) => setCategory(e.value)}
-              options={categoryOptions}
-              optionLabel="option"
-              placeholder="Questions Category"
-              className="w-full md:max-w-xs xl:max-w-md"
-            />
-            <Dropdown
               value={difficulty}
               onChange={(e) => setdifficulty(e.value)}
               options={difficultyOptions}
@@ -61,19 +55,18 @@ export default function Home() {
               placeholder="Difficulty Level"
               className="w-full md:max-w-xs xl:max-w-md"
             />
-            <p className="text-md font-semibold">Total Questions: {limit}</p>
-            <Slider
-              value={limit}
-              onChange={(e) => setLimit(e.value)}
-              min={5}
-              max={50}
-              step={5}
+            <Dropdown
+              value={mode}
+              onChange={(e) => setmode(e.value)}
+              options={modeOptions}
+              optionLabel="option"
+              placeholder="Game Mode"
               className="w-full md:max-w-xs xl:max-w-md"
             />
             <Button
               label="Start Quiz"
               severity="info"
-              disabled={!difficulty || !category}
+              disabled={!difficulty}
               onClick={handleQuizStart}
             />
           </div>

@@ -6,6 +6,7 @@ export function ContextProvider({ children }) {
   const [showQuestionScreen, setShowQuestionScreen] = useState(false);
   const [showResultScreen, setShowResultScreen] = useState(false);
   const [difficulty, setdifficulty] = useState("");
+  const [mode, setmode] = useState(""); 
   const [category, setCategory] = useState("");
   const [limit, setLimit] = useState(10);
 
@@ -14,6 +15,7 @@ export function ContextProvider({ children }) {
     setShowQuestionScreen(false);
     setCategory("");
     setdifficulty("");
+    setmode("");
     setLimit(10);
     setShowResultScreen(false);
   };
@@ -29,6 +31,8 @@ export function ContextProvider({ children }) {
         setShowResultScreen,
         difficulty,
         setdifficulty,
+        mode,
+        setmode,
         category,
         setCategory,
         limit,

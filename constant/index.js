@@ -1,46 +1,3 @@
-export const categoryOptions = [
-  {
-    value: "general_knowledge",
-    option: "General Knowledge",
-  },
-  {
-    value: "arts_and_literature",
-    option: "Arts & Literature",
-  },
-  {
-    value: "film_and_tv",
-    option: "Film & TV",
-  },
-  {
-    value: "food_and_drink",
-    option: "Food & Drink",
-  },
-  {
-    value: "society_and_culture",
-    option: "Society & Culture",
-  },
-  {
-    value: "geography",
-    option: "Geography",
-  },
-  {
-    value: "history",
-    option: "History",
-  },
-  {
-    value: "music",
-    option: "Music",
-  },
-  {
-    value: "sport_and_leisure",
-    option: "Sport & Leisure",
-  },
-  {
-    value: "science",
-    option: "Science",
-  },
-];
-
 export const difficultyOptions = [
   {
     value: "easy",
@@ -56,21 +13,21 @@ export const difficultyOptions = [
   },
 ];
 
+export const modeOptions = [
+  {
+    option: "Normal",
+    value:
+      "The questions should be related to the top 5 European football leagues, FIFA World Cup, UEFA Euro Cup, and UEFA Champions League. Include topics on players, records, football rules, and general trivia.",
+  },
+  {
+    option: "Guess the Player",
+    value:
+      "The questions should be based on the players from the top 5 European football leagues, and should be worded in the following manner: French centreback that Plays for FC barcelona, or portugese left winger that plays for Juventus. The answer should be the name of the player",
+  },
+];
+
 export const alphabeticNumeral = (index) => {
   const asciiCode = index + 65;
   const letter = String.fromCharCode(asciiCode);
   return letter + ". ";
-};
-
-export const showCategory = (category) => {
-  if (category === "general_knowledge") return "General Knowledge";
-  else if (category === "science") return "Science";
-  else if (category === "sport_and_leisure") return "Sports & Leisure";
-  else if (category === "music") return "Music";
-  else if (category === "history") return "History";
-  else if (category === "geography") return "Geography";
-  else if (category === "society_and_culture") return "Society & Culture";
-  else if (category === "arts_and_literature") return "Arts & Literture";
-  else if (category === "film_and_tv") return "Film & TV";
-  else if (category === "food_and_drink") return "Food & Drink";
 };

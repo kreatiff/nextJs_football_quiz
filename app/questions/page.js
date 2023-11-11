@@ -9,12 +9,22 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { ProgressBar } from "primereact/progressbar";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const generateRandomId = () => {
+  return Math.random().toString(36).substr(2, 16);
+};
 
 const Questions = () => {
   const {
     showQuestionScreen,
     category,
     difficulty,
+    mode,
     limit,
     score,
     setScore,
@@ -37,28 +47,31 @@ const Questions = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const apiUrl = `https://the-trivia-api.com/api/questions?categories=${category}&limit=${limit}&type=multiple&difficulty=${difficulty}
-      `;
-      setLoading(true);
+      setLoading(true); // Set loading to true before fetching data
       try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-          toast.current.show({
-            severity: "error",
-            summary: "Something Went Wrong",
-            detail: "Please try again Later!",
-            life: 5000,
-          });
-          setTimeout(() => {
-            router.push("/");
-          }, 5000);
-        }
-        const data = await response.json();
-        setData(data);
+        const response = await openai.chat.completions.create({
+          model: "gpt-3.5-turbo-1106", // Replace with your model name if different
+          messages: [
+            {
+              role: "system",
+              content: `You are a helpful assistant designed to generate multiple choice football questions with one correct answer and three incorrect answers. The questions should be of ${difficulty} difficulty. ${mode} Your output format should be JSON in the following template "id": "622a1c367cc59eab6f950026", "correctAnswer": "Baseball", "incorrectAnswers": ["Basketball", "American Football", "Soccer"],"question": "With which sport is Babe Ruth associated?"`,
+            },
+            { role: "user", content: "Generate 10 new questions" },
+          ],
+        });
+        // Extracting the content and removing the code block syntax
+        const contentString = response.choices[0].message.content;
+        const jsonContent = contentString
+          .replace(/```json\n|\n```/g, "")
+          .trim();
+        const questionsJson = JSON.parse(jsonContent);
+        return setData(questionsJson);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching football questions:", error);
+        return [];
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
       }
-      setLoading(false);
     };
 
     fetchData();
@@ -122,7 +135,6 @@ const Questions = () => {
             color={progressValue === 100 && "green"}
           />
           <div className="flex justify-between py-5 px-2 font-bold text-md">
-            <p>Category: {showCategory(category)}</p>
             <p>Score: {score}</p>
           </div>
           <div className="flex flex-col min-h-[70vh] p-10 gap-4 w-full">
